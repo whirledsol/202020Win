@@ -1,17 +1,17 @@
 using Microsoft.Toolkit.Uwp.Notifications;
-using System.Windows.Forms;
+using System.IO;
 
 namespace _202020
 {
     public class Worker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
         readonly AppSettings _settings;
         readonly Random _random;
+        readonly Blocker _blocker;
 
-        public Worker(ILogger<Worker> logger)
+        public Worker()
         {
-            _logger = logger;
+
             _random = new Random();
 
             _settings = new ConfigurationBuilder()
@@ -20,6 +20,7 @@ namespace _202020
                      .Build()
                      .GetSection("Settings")
                      .Get<AppSettings>();
+            _blocker = new Blocker();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -36,6 +37,10 @@ namespace _202020
             int randomIndex = _random.Next(Constants.MessagesWork.Count);
             var message = Constants.MessagesWork[randomIndex];
             ShowToast(message);
+            if (_settings.Intrusive)
+            {
+                _blocker.Overlay.Hide();
+            }
             await Task.Delay(_settings.WorkTimeSeconds * 1000, stoppingToken);
         }
 
@@ -45,15 +50,12 @@ namespace _202020
             ShowToast(message);
             if (_settings.Intrusive)
             {
-                BeIntrusive();
+                _blocker.Overlay.Show();
             }
             await Task.Delay(_settings.BreakTimeSeconds * 1000, stoppingToken);
         }
 
 
-        void BeIntrusive() {
-            var form = new Form();
-        }
 
         void ShowToast(string message) {
             new ToastContentBuilder()

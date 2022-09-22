@@ -6,6 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-_202020-7EDA0005-8C6C-4564-8641-B243BF07C6F2</UserSecretsId>
     <RootNamespace>_202020</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>False</UseWindowsForms>
+    <UseWPF>True</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>

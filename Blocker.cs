@@ -17,6 +17,7 @@ namespace _202020
             Overlay = new Window();
             Overlay.Topmost = true;
             Overlay.WindowState = WindowState.Maximized;
+            Overlay.WindowStyle = WindowStyle.None;
             Overlay.AllowsTransparency = true;
             Overlay.Background = new SolidColorBrush(Color.FromArgb(200, 10, 10, 10));
            

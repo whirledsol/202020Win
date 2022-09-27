@@ -9,11 +9,11 @@ IHost host = Host.CreateDefaultBuilder(args)
 
 await host.RunAsync();
 */
-Thread t = new Thread(new ThreadStart(async ()=>
+Thread t = new Thread(new ThreadStart(()=>
 {
     var cancelSource = new CancellationTokenSource();
     Worker worker = new Worker();
-    await worker.StartAsync(cancelSource.Token);
+    worker.Execute(cancelSource.Token);
     cancelSource.Cancel();
 }));
 t.SetApartmentState(ApartmentState.STA);

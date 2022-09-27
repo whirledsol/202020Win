@@ -3,7 +3,7 @@ using System.IO;
 
 namespace _202020
 {
-    public class Worker : BackgroundService
+    public class Worker
     {
         readonly AppSettings _settings;
         readonly Random _random;
@@ -23,16 +23,16 @@ namespace _202020
             _blocker = new Blocker();
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public void Execute(CancellationToken stoppingToken) 
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await InitiateWork(stoppingToken);
-                await InitiateBreak(stoppingToken);
+                InitiateWork(stoppingToken);
+                InitiateBreak(stoppingToken);
             }
         }
 
-        async Task InitiateWork(CancellationToken stoppingToken)
+        void InitiateWork(CancellationToken stoppingToken)
         {
             int randomIndex = _random.Next(Constants.MessagesWork.Count);
             var message = Constants.MessagesWork[randomIndex];
@@ -41,10 +41,10 @@ namespace _202020
             {
                 _blocker.Overlay.Hide();
             }
-            await Task.Delay(_settings.WorkTimeSeconds * 1000, stoppingToken);
+            Task.Delay(_settings.WorkTimeSeconds * 1000, stoppingToken).Wait();
         }
 
-        async Task InitiateBreak(CancellationToken stoppingToken) {
+        void InitiateBreak(CancellationToken stoppingToken) {
             int randomIndex = _random.Next(Constants.MessagesBreak.Count);
             var message = Constants.MessagesBreak[randomIndex];
             ShowToast(message);
@@ -52,7 +52,7 @@ namespace _202020
             {
                 _blocker.Overlay.Show();
             }
-            await Task.Delay(_settings.BreakTimeSeconds * 1000, stoppingToken);
+            Task.Delay(_settings.BreakTimeSeconds * 1000, stoppingToken).Wait();
         }
 
 

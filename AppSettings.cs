@@ -16,12 +16,12 @@ namespace _202020
         /// <summary>
         /// Work time in sec
         /// </summary>
-        public int WorkTimeSeconds { get; set; } = 5;//20 * 60;
+        public int WorkTimeSeconds { get; set; } = 20 * 60;
 
         /// <summary>
         /// Break time in sec
         /// </summary>
-        public int BreakTimeSeconds { get; set; } = 5;//20;
+        public int BreakTimeSeconds { get; set; } = 20;
         
         /// <summary>
         /// If true, restricts activity during break

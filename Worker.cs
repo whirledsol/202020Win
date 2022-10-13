@@ -1,5 +1,6 @@
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.IO;
+using System.Windows.Controls;
 
 namespace _202020
 {
@@ -63,10 +64,34 @@ namespace _202020
             .AddArgument("conversationId", _settings.ConversationId)
             .AddText(message)
             .AddAppLogoOverride(new Uri(Path.GetFullPath("./icon.png")), ToastGenericAppLogoCrop.Circle)
-            .Show(toast =>
+            .Show();
+        }
+
+        void SetupTrayIcon()
+        {
+            var menu = new ContextMenu();
+            var mnuExit = new MenuItem()
             {
-                toast.ExpirationTime = DateTime.Now.AddSeconds(_settings.BreakTimeSeconds);
-            });
+               Name="Exit"
+            };
+            menu.
+
+            notificationIcon = new NotifyIcon()
+            {
+                Icon = Properties.Resources.Services,
+                ContextMenu = menu,
+                Text = "Main"
+            };
+            mnuExit.Click += new EventHandler(mnuExit_Click);
+
+            notificationIcon.Visible = true;
+            Console.Read();
+
+        }
+        static void mnuExit_Click(object sender, EventArgs e)
+        {
+            notificationIcon.Dispose();
+            Application.Exit();
         }
     }
 
